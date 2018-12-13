@@ -1,0 +1,27 @@
+#!/bin/bash
+# Cat feeder script
+# start loop
+#	convert sensor data to csv file
+#   delete old csv file from google drive
+#   wait 10 sec
+#   copy new csv file to google drive
+#   wait 60 sec
+#   remove new csv file from local directory	
+#   wait 10 sec
+# end loop
+
+while true
+do
+python convert_to_csv.py sensor_data.txt out.csv
+echo "converted"
+rclone delete Cat:out.csv
+sleep 10
+rclone copy out.csv Cat:
+echo "updated"
+sleep 60
+rm out.csv
+echo "removed"
+sleep 10
+done
+
+
